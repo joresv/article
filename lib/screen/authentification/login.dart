@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:article/model/userModel/userModel.dart';
 import 'package:article/widgets/customTextField.dart';
 import 'package:article/widgets/loading.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
       if(succes == 1){
         setState(() {
           err = result[0];
+          UserModel.saveUser(UserModel.fromJson(result[2]));
           _loading = false;
           widget.login.call();
         });

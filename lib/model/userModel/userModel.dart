@@ -7,38 +7,33 @@ class UserModel {
   String nom;
   String email;
   UserModel({this.id, this.nom, this.email});
+  static UserModel sessionUser;
   factory UserModel.fromJson(Map<String, dynamic> i)=>UserModel(
     id: i['id'],
     nom: i['nom'],
     email: i['email']
   );
-  static UserModel sessionUser;
   Map<String, dynamic> toMap()=>{
     "id":id,
     "nom":nom,
     "email":email
   };
 
-  static  save(UserModel user) async{
-    SharedPreferences p = await SharedPreferences.getInstance();
-    p.setString("user", json.encode(user.toMap()));
-    p.commit();
+  static void saveUser(UserModel user) async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var data = json.encode(user.toMap());
+    pref.setString("user", data);
+    pref.commit();
   }
 
-  static Future<UserModel> get currentuser async{
-    SharedPreferences p = await SharedPreferences.getInstance();
-    var user = UserModel.fromJson(json.decode(p.getString("user")));
-    return user!=null?user:null;
-  }
-  static void saveTest(String a) async{
-    SharedPreferences p = await SharedPreferences.getInstance();
-    await p.setString("test", a);
-    print("enregis");
+  static void getUser() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var data = pref.getString("user");
+    var decode = json.decode(data);
+    var user = await UserModel.fromJson(decode);
+    sessionUser = user;
+    print(sessionUser.email);
   }
 
-  static void test() async{
-    SharedPreferences p = await SharedPreferences.getInstance();
-    var val = p.getString('test');
-    print(val);
-  }
+
 }
