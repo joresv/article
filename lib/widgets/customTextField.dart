@@ -4,14 +4,18 @@ class CustomTextField {
   final String title;
   final String placeholder;
   final bool ispass;
+  final int line;
+  String initialValue;
   String err;
   String _value="";
-  CustomTextField({this.title="", this.placeholder="", this.ispass=false, this.err="please complete"});
+  CustomTextField({this.title="", this.placeholder="", this.ispass=false, this.err="please complete", this.line=1, this.initialValue});
   TextEditingController controller = new TextEditingController();
   
   TextFormField textfrofield(){
+    controller.text = initialValue;
     return TextFormField(
       controller: controller,
+      maxLines: this.line,
       onChanged: (e){
         _value = e;
       },

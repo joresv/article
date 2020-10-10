@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:article/crypt/encrypt.dart';
 import 'package:article/model/userModel/userModel.dart';
 import 'package:article/widgets/customTextField.dart';
 import 'package:article/widgets/loading.dart';
@@ -22,12 +23,13 @@ class _LoginState extends State<Login> {
       _loading = true;
     });
     final response = await http.post("https://mesprojetsapp.000webhostapp.com/article/login.php", body: {
-      "email":email,
-      "pass":pass
+      "email":encrypt(email),
+      "pass":encrypt(pass)
     });
     if(response.statusCode == 200){
-      var data = jsonDecode(response.body);
+      var data = jsonDecode(decrypt(response.body));
       var result = data['data'];
+      print(result);
       int succes = result[1];
       if(succes == 1){
         setState(() {

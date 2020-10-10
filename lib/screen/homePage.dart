@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool visible = true, login=false;
   isconnected() async{
-   await UserModel.getUser();
+  await UserModel.getUser();
    if(UserModel.sessionUser == null){
      setState(() {
        login = false;
@@ -43,6 +43,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return login?Home():visible? Login(toggle, islogin):Register(toggle);
+    return login?Home(login: islogin):visible? Login(toggle, islogin):Register(toggle);
   }
 }

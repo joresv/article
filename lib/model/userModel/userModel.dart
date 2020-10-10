@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserModel {
@@ -29,10 +28,20 @@ class UserModel {
   static void getUser() async{
     SharedPreferences pref = await SharedPreferences.getInstance();
     var data = pref.getString("user");
-    var decode = json.decode(data);
-    var user = await UserModel.fromJson(decode);
-    sessionUser = user;
-    print(sessionUser.email);
+    if(data != null){
+      var decode = json.decode(data);
+      var user = await UserModel.fromJson(decode);
+      sessionUser = user;
+    }else{
+      sessionUser = null;
+    }
+  }
+
+  static void logOut() async{
+    SharedPreferences p = await SharedPreferences.getInstance();
+    p.setString("user", null);
+    sessionUser = null;
+    p.commit();
   }
 
 
