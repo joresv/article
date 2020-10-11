@@ -14,6 +14,9 @@ class _PostUserState extends State<PostUser> {
 List<PostModel> postModel = [];
 bool isok = false;
 getPostUser() async{
+  setState(() {
+    isok = false;
+  });
     var data = await Api.getPostUser(UserModel.sessionUser.id);
     if(data != null){
       postModel.clear();
@@ -34,7 +37,6 @@ getPostUser() async{
     super.initState();
     getPostUser();
   }
-
   final _key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,11 @@ getPostUser() async{
       appBar: AppBar(
         title: Text("Modifier un Post"),
         centerTitle: true,
+        actions: [
+          IconButton(icon: Icon(Icons.refresh, color: Colors.white,), onPressed: (){
+            getPostUser();
+          }),
+        ],
       ),
       body: isok?ListView.builder(
                 itemCount: postModel.length,
@@ -68,7 +75,7 @@ getPostUser() async{
                               Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdatePost(model: post,)));
                             }),
                           ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -124,7 +131,7 @@ void initState() {
                   height: 10,
                 ),
                 Text(
-                  "Nouvelle Publication",
+                  "Modifier La Publication",
                   style: TextStyle(
                       color: Colors.redAccent,
                       fontSize: 30,
@@ -149,8 +156,8 @@ void initState() {
                         });
                         myPost.titre = titre.value;
                         myPost.detail = detail.value;
-                        myPost.user = UserModel.sessionUser.id;
-                        var result = await Api.addPost(myPost.toMap());
+                        myPost.id_post = widget.model.id_post;
+                        var result = await Api.updatePost(myPost.toMap());
                         if(result != null && result[0]){
                           setState(() {
                             post = false;
@@ -170,7 +177,7 @@ void initState() {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      "Publier",
+                      "Modifier",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     color: Colors.redAccent.withOpacity(.7)),

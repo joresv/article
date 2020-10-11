@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:article/api/api.dart';
 import 'package:article/model/userModel/postModel.dart';
 import 'package:article/model/userModel/userModel.dart';
 import 'package:article/screen/home/addpage.dart';
+import 'package:article/screen/home/deletePage.dart';
 import 'package:article/screen/home/updatePage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -65,7 +64,9 @@ class _HomeState extends State<Home> {
                 FlatButton.icon(onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> PostUser()));
                 }, icon: Icon(Icons.edit, color: whiteColor), label: Text("Modifier", style: style,), color: Colors.yellow),
-                FlatButton.icon(onPressed: (){}, icon: Icon(Icons.delete, color: whiteColor), label: Text("Supprimer", style: style,), color: Colors.red),
+                FlatButton.icon(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> PostUserd()));
+                }, icon: Icon(Icons.delete, color: whiteColor), label: Text("Supprimer", style: style,), color: Colors.red),
               ],
             ),
             Container(

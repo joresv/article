@@ -10,9 +10,13 @@ class CustomTextField {
   String _value="";
   CustomTextField({this.title="", this.placeholder="", this.ispass=false, this.err="please complete", this.line=1, this.initialValue});
   TextEditingController controller = new TextEditingController();
-  
+  int i = 0;
   TextFormField textfrofield(){
-    controller.text = initialValue;
+    i++;
+    if(i==1){
+      controller.text = initialValue;
+      _value = initialValue;
+    };
     return TextFormField(
       controller: controller,
       maxLines: this.line,
